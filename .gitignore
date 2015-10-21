@@ -5,3 +5,7 @@
 # Python
 
 *.pyc
+
+#pytest
+
+.cache
