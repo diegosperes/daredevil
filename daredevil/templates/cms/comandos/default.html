@@ -1,0 +1,40 @@
+<html>
+<head>
+	<title>{{ titulo }}</title>
+</head>
+<body>
+	<div>
+		<h1>{{ titulo }}</h1>
+		<form action="/cms/comando/adicionar" method='post'>
+			<p>
+				<span>Nome:</span>
+				<input type="text" name="nome" value="{{ comando.nome }}">
+			</p>
+			<p>
+				<span>Regex:</span>
+				<input type="text" name="regex" value="{{ comando.regex }}">
+			</p>
+			<h2>Ações</h2>
+			<p>
+				<span>Alvo:</span>
+				<textarea name="alvo">{{ comando.alvo }}</textarea>
+			</p>
+			<ul>
+				{% for texto, acao in acoes %}
+					<li>
+						<p>
+							<span>{{ texto }}</span>
+							<input type="radio" name="acao" value="{{ acao }}"
+								{% if comando.acao == acao %}
+									checked="checked"
+								{% endif %}
+							>
+						</p>
+					</li>
+				{% endfor %}
+			</ul>
+			<p><input type="submit"></p>
+		</form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<html>
+<head>
+	<title>Listagem de comandos de voz</title>
+</head>
+<body>
+	<div>
+		<h1>Listagem de comandos de voz</h1>
+		<ul>
+			<li>
+				<a href="/cms/comando/adicionar">Adicionar comando de voz</a>
+			</li>
+		</ul>
+		<ul>
+			{% for comando in comandos %}
+				<li>
+					<a href="/cms/{{ comando.id }}">{{ comando.nome }}</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+</body>
+</html>
