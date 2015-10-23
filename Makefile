@@ -1,7 +1,7 @@
 .PHONY: start tests
 
 start:
-	@python daredevil/api.py
+	@python -m daredevil.api
 
 tests:
 	@find . -name '*.pyc' -delete
