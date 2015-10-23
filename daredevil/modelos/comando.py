@@ -18,7 +18,11 @@ class Comando(Document):
 	slug = StringField(required=True, primary_key=True)
 
 	def salvar(self, dado):
-		if not [acao for texto, acao in self.acoes if dado['acao'] == acao]:
+
+		if 'acao' not in dado:
+			raise Exception(u'Por favor escolha uma ação.')
+
+		elif not [acao for texto, acao in self.acoes if dado['acao'] == acao]:
 			raise Exception(u'Essa ação não é válida, por favor escolha outra ação.')
 
 		self.slug = dado['nome']

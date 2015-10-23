@@ -17,8 +17,15 @@ class FormComandoValidate(TestCase):
 		Comando().salvar(dados)
 		self.assertTrue(Comando.objects(slug='comando123'))
 
-	def test_nao_deve_salvar_comando_quando_acao_nao_existir(self):
+	def test_nao_deve_salvar_comando_quando_acao_invalida(self):
 		dados = {"nome":"comando123", "regex": "regex", "alvo": "alvo", "acao": "acao"}
+		Comando.objects(slug='comando123').delete()
+
+		with self.assertRaises(Exception):
+			Comando().salvar(dados)
+
+	def test_nao_deve_salvar_comando_quando_acao_nao_existir(self):
+		dados = {"nome":"", "regex": "", "alvo": ""}
 		Comando.objects(slug='comando123').delete()
 
 		with self.assertRaises(Exception):

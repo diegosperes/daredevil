@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from unittest2 import TestCase
-from mongoengine import connect
 
 from daredevil.api import app as api
 from daredevil.modelos.comando import Comando
-
-
-connect(host='127.0.0.1', port=27017)
 
 
 class TestApi(TestCase):
@@ -59,10 +55,21 @@ class TestApi(TestCase):
 		self.assertEqual('text/html', response.mimetype)
 		self.assertIn('<title>Error ao processar comando</title>', response.data)
 
-	def test_deve_mostrar_error_acao_para_rota_cms_com_post_comando_adicionar(self):
-		response = self.app.post('/cms/comando/adicionar', data=dict(
-			nome='comando123', regex='regex', alvo='alvo', acao='acao'))
-		self.assertIn('<h2>Essa ação não é válida, por favor escolha outra ação.</h2>', response.data)
+	def test_deve_mostrar_error_para_rota_cms_com_post_comando_adicionar(self):
+		comando_acao_invalida = dict(self.comando)
+		comando_acao_invalida['acao'] = 'acao'
+
+		comando_sem_acao = dict(self.comando)
+		del comando_sem_acao['acao']
+
+		erros = [
+			('<h2>Essa ação não é válida, por favor escolha outra ação.</h2>', comando_acao_invalida),
+			('<h2>Por favor escolha uma ação.</h2>', comando_sem_acao)
+		]
+
+		for mensagem, comando in erros:
+			response = self.app.post('/cms/comando/adicionar', data=comando)
+			self.assertIn(mensagem, response.data)
 
 	def test_deve_retornar_pagina_correta_para_rota_edicao_cms_comando(self):
 		Comando().salvar(self.comando)
