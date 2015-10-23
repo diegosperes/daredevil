@@ -3,10 +3,12 @@
 import json
 
 from flask import Flask, render_template, request
+from mongoengine import connect
 
 from daredevil.modelos.comando import Comando
+import settings
 
-
+connect(settings.MONGOHOST, settings.MONGOPORT)
 app = Flask(__name__)
 
 
