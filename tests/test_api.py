@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from unittest2 import TestCase
+from mock import patch
 
 from daredevil.api import app as api
 from daredevil.modelos.comando import Comando
@@ -95,3 +96,23 @@ class TestApi(TestCase):
 		self.app.get('/cms/comando/deletar/comando123')
 		self.assertFalse(Comando.objects())
 
+	def test_deve_gerar_javascript_para_rota_javascript(self):
+		comando = Comando()
+		comando.salvar(self.comando)
+		response = self.app.get('/javascript')
+		self.assertEqual(200, response.status_code)
+		self.assertEqual('text/html', response.mimetype)
+
+		elementos = (
+			'document.onreadystatechange', 'if (document.readyState == "complete") { initialize(); }',
+			'\'regex-teste\': ler("alvo-teste");', 'annyang.addCommands(commands);', 'annyang.start();')
+
+		for elemento in elementos:
+			self.assertIn(elemento, response.data)
+
+	@patch('daredevil.api.processa_calback_comando')
+	def test_deve_chamar_processar_callback_comando(self, mock_processa_callback):
+		comando = Comando()
+		comando.salvar(self.comando)
+		response = self.app.get('/javascript')
+		mock_processa_callback.assert_called_with(comando)

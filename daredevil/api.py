@@ -5,12 +5,25 @@ import json
 from flask import Flask, render_template, request
 
 from modelos.comando import Comando
+from funcoes_jinja import processa_calback_comando
 import settings
 
 app = Flask(__name__)
 
 
-@app.route('/cms/comando/<slug>', methods=['GET', 'POST'])
+@app.context_processor
+def funcoes_jinja2():
+	return dict(processa_calback_comando=processa_calback_comando)
+
+
+@app.route('/javascript', methods=['GET'])
+def javascript():
+	contexto = {}
+	contexto['comandos'] = Comando.objects()
+	return render_template('javascript/default.js', **contexto)
+
+
+@app.route('/cms/comando/<slug>', methods=['GET'])
 def cms_comandos(slug):
 	contexto = {}
 	contexto['titulo'] = 'Editar comando de voz'
@@ -52,6 +65,7 @@ def cms_adicionar_post():
 		url = 'cms/comandos/error.html'
 
 	return render_template(url, **contexto)
+
 
 @app.route('/cms/comando/deletar/<slug>', methods=['GET'])
 def cms_deletar_get(slug):
