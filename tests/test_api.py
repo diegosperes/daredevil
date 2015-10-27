@@ -14,7 +14,7 @@ class TestApi(TestCase):
 		api.config['TESTING'] = True
 		api.config['DEBUG'] = True
 		self.app = api.test_client()
-		Comando.objects(slug='comando123').delete()
+		Comando.objects().delete()
 
 	def test_deve_retornar_pagina_correta_para_rota_cms_comando(self):
 		urls = ('/cms/comando', '/cms/comando/listagem')
