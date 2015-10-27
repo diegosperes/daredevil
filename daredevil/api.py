@@ -3,12 +3,10 @@
 import json
 
 from flask import Flask, render_template, request
-from mongoengine import connect
 
-from daredevil.modelos.comando import Comando
+from modelos.comando import Comando
 import settings
 
-connect(settings.MONGOHOST, settings.MONGOPORT)
 app = Flask(__name__)
 
 
@@ -56,4 +54,4 @@ def cms_adicionar_post():
 	return render_template(url, **contexto)
 
 if __name__ == '__main__':
-	app.run()
+	app.run(host=settings.daredevil['host'], port=settings.daredevil['port'], debug=settings.daredevil['debug'])
