@@ -24,3 +24,9 @@ class FormComandoValidate(TestCase):
 		dados = {"nome":"", "regex": "", "alvo": ""}
 		with self.assertRaises(Exception):
 			Comando().salvar(dados)
+
+	def test_deve_excluir_comando(self):
+		dados = {"nome":"comando123", "regex": "regex", "alvo": "alvo", "acao": "ler"}
+		Comando().salvar(dados)
+		Comando().excluir('comando123')
+		self.assertFalse(Comando.objects(slug='comando123'))

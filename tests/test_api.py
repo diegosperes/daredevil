@@ -89,3 +89,9 @@ class TestApi(TestCase):
 	def test_deve_salvar_comando_para_rota_cms_comando_adicionar(self):
 		self.app.post('/cms/comando/adicionar', data=self.comando)
 		self.assertTrue(Comando.objects(slug='comando123'))
+
+	def test_deve_deletar_comando_para_rota_cms_comando_deletar(self):
+		Comando().salvar(self.comando)
+		self.app.get('/cms/comando/deletar/comando123')
+		self.assertFalse(Comando.objects())
+

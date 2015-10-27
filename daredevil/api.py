@@ -10,11 +10,11 @@ import settings
 app = Flask(__name__)
 
 
-@app.route('/cms/comando/<rota>', methods=['GET', 'POST'])
-def cms_comandos(rota):
+@app.route('/cms/comando/<slug>', methods=['GET', 'POST'])
+def cms_comandos(slug):
 	contexto = {}
 	contexto['titulo'] = 'Editar comando de voz'
-	contexto['comando'] = Comando.objects(slug=rota)[0]
+	contexto['comando'] = Comando.objects(slug=slug)[0]
 	contexto['acoes'] = Comando.acoes
 	url = 'cms/comandos/default.html'
 
@@ -52,6 +52,12 @@ def cms_adicionar_post():
 		url = 'cms/comandos/error.html'
 
 	return render_template(url, **contexto)
+
+@app.route('/cms/comando/deletar/<slug>', methods=['GET'])
+def cms_deletar_get(slug):
+	Comando().excluir(slug)
+
+	return render_template('cms/comandos/sucesso.html')
 
 if __name__ == '__main__':
 	app.run(host=settings.daredevil['host'], port=settings.daredevil['port'], debug=settings.daredevil['debug'])

@@ -30,3 +30,6 @@ class Comando(Document):
 			setattr(self, atributo, valor)
 
 		self.save()
+
+	def excluir(self, slug):
+		Comando(slug=slug).delete()
