@@ -1,9 +1,12 @@
-.PHONY: start tests stop
+.PHONY: start tests app app-stop
 
 start:
+	@python -m daredevil.wsig
+
+app:
 	@python -m daredevil.api
 
-stop:
+app-stop:
 	@kill `echo \`ps aux | egrep '^.*daredevil\/api\.py'\` | cut -f2 -d ' '`
 
 flake8:
@@ -13,6 +16,6 @@ tests: flake8
 	@find . -name '*.pyc' -delete
 	@py.test -m 'not browsertest' --cache-clear || true
 
-	@make start&
+	@make app&
 	@py.test -m 'browsertest' --cache-clear || true
-	@make stop
+	@make app-stop
