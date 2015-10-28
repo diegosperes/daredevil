@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, Response
 
 from modelos.comando import Comando
 from funcoes_jinja import processa_calback_comando
@@ -18,7 +18,8 @@ def funcoes_jinja2():
 def javascript():
     contexto = {}
     contexto['comandos'] = Comando.objects()
-    return render_template('javascript/default.js', **contexto)
+    conteudo = render_template('javascript/default.js', **contexto)
+    return Response(conteudo, mimetype='text/javascript')
 
 
 @app.route('/cms/comando/<slug>', methods=['GET'])

@@ -101,7 +101,7 @@ class TestApi(TestCase):
         comando.salvar(self.comando)
         response = self.app.get('/javascript')
         self.assertEqual(200, response.status_code)
-        self.assertEqual('text/html', response.mimetype)
+        self.assertEqual('text/javascript', response.mimetype)
 
         elementos = (
             'document.onreadystatechange',
