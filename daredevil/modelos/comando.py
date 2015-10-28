@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from mongoengine import Document, StringField
+from slugify import slugify
 
 
 class Comando(Document):
@@ -25,7 +26,7 @@ class Comando(Document):
         elif not [acao for texto, acao in self.acoes if dado['acao'] == acao]:
             raise Exception(u'Essa ação não é válida, por favor escolha outra ação.')
 
-        self.slug = dado['nome']
+        self.slug = slugify(dado['nome'])
         for atributo, valor in dado.items():
             setattr(self, atributo, valor)
 
