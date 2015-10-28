@@ -3,8 +3,8 @@
 from mongoengine import connect
 
 try:
-	from daredevil import settings
+    from daredevil import settings
 except:
-	import settings
+    import settings
 
 connect(host=settings.mongodb['host'], port=settings.mongodb['port'])

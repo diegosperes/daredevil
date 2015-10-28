@@ -3,11 +3,13 @@
 start:
 	@python -m daredevil.api
 
-
 stop:
 	@kill `echo \`ps aux | egrep '^.*daredevil\/api\.py'\` | cut -f2 -d ' '`
 
-tests:
+flake8:
+	@flake8 .
+
+tests: flake8
 	@find . -name '*.pyc' -delete
 	@py.test -m 'not browsertest' --cache-clear || true
 
