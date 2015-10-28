@@ -1,11 +1,15 @@
 
 
 def processa_calback_comando(comando):
-    if comando.acao == 'ler':
-        return 'ler("%s");' % comando.alvo
+    callback = None
 
-    if comando.acao == 'mostrar/esconder':
-        return 'mostrarEsconder("%s");' % comando.alvo
+    if comando.acao == 'ler':
+        callback = 'ler("%s");' % comando.alvo
+
+    elif comando.acao == 'mostrar/esconder':
+        callback = 'mostrarEsconder("%s");' % comando.alvo
 
     else:
-        return comando.alvo
+        callback = comando.alvo
+
+    return 'function(){%s}' % callback

@@ -8,9 +8,9 @@ var ler = function(seletorCSS){
 	var elemento = $(seletorCSS);
 	var mensagem = '';
 
-	if (elemento.is(':visible'){
+	if (elemento.is(':visible')){
 		mensagem = $(seletorCSS).text();
-	})
+	}
 
 	if (window.SpeechSynthesisUtterance !== undefined) {
 
@@ -35,8 +35,11 @@ var initialize = function(){
 		{% endfor %}
 	}
 
-	annyang.addCommands(commands);
-	annyang.start();
+	if (annyang){
+		annyang.addCommands(commands);
+		annyang.setLanguage('pt');
+		annyang.start();
+	}
 }
 
 document.onreadystatechange = function () {

@@ -7,9 +7,13 @@ class TestFuncaoJinja2(TestCase):
 
     def test_deve_processar_callback_comando(self):
         comandos = (
-            ({"nome": "comando123", "regex": "regex", "alvo": "chamarCallback", "acao": "callback"}, 'chamarCallback'),
-            ({"nome": "comando123", "regex": "regex", "alvo": "seletorCSS", "acao": "ler"}, 'ler("seletorCSS");'),
-            ({"nome": "comando123", "regex": "regex", "alvo": "seletorCSS", "acao": "mostrar/esconder"}, 'mostrarEsconder("seletorCSS");'))
+            ({"nome": "comando123", "regex": "regex", "alvo": "chamarCallback",
+             "acao": "callback"}, 'function(){chamarCallback}'),
+            ({"nome": "comando123", "regex": "regex", "alvo": "seletorCSS",
+             "acao": "ler"}, 'function(){ler("seletorCSS");}'),
+            ({"nome": "comando123", "regex": "regex", "alvo": "seletorCSS",
+             "acao": "mostrar/esconder"},
+             'function(){mostrarEsconder("seletorCSS");}'))
 
         for dado, callback in comandos:
             comando = Comando()

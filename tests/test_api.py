@@ -106,7 +106,7 @@ class TestApi(TestCase):
         elementos = (
             'document.onreadystatechange',
             'if (document.readyState == "complete") { initialize(); }',
-            '\'regex-teste\': ler("alvo-teste");',
+            '\'regex-teste\': function(){ler("alvo-teste");}',
             'annyang.addCommands(commands);',
             'annyang.start();',
             'var ler = function(seletorCSS){',
