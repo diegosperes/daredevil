@@ -105,7 +105,8 @@ class TestApi(TestCase):
 
 		elementos = (
 			'document.onreadystatechange', 'if (document.readyState == "complete") { initialize(); }',
-			'\'regex-teste\': ler("alvo-teste");', 'annyang.addCommands(commands);', 'annyang.start();')
+			'\'regex-teste\': ler("alvo-teste");', 'annyang.addCommands(commands);', 'annyang.start();',
+			'var ler = function(seletorCSS){', 'var mostrarEsconder = function(seletorCSS){')
 
 		for elemento in elementos:
 			self.assertIn(elemento, response.data)
