@@ -110,7 +110,9 @@ class TestApi(TestCase):
             'annyang.addCommands(commands);',
             'annyang.start();',
             'var ler = function(seletorCSS){',
-            'var mostrarEsconder = function(seletorCSS){')
+            'var mostrarEsconder = function(seletorCSS){',
+            'https://www.TalAter.com/annyang/',
+            'SpeechRecognition')
 
         for elemento in elementos:
             self.assertIn(elemento, response.data)

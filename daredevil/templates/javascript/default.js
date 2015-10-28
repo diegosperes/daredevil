@@ -1,3 +1,5 @@
+{% include 'javascript/annyang.js' %}
+
 var mostrarEsconder = function(seletorCSS){
 	$(seletorCSS).toggle();
 }
