@@ -5,26 +5,45 @@ var mostrarEsconder = function(seletorCSS){
 }
 
 var ler = function(seletorCSS){
-  var elemento = $(seletorCSS);
-  var mensagem = '';
-
-  if (elemento.is(':visible')){
-    mensagem = $(seletorCSS).text();
-  }
-
   if (window.SpeechSynthesisUtterance !== undefined) {
 
-    var sinteseVoz = new SpeechSynthesisUtterance();
-    var voz = window.speechSynthesis.getVoices();
-    sinteseVoz.voice = voz[10];
-    sinteseVoz.voiceURI = 'native';
-    sinteseVoz.volume = 1;
-    sinteseVoz.rate = 1;
-    sinteseVoz.pitch = 2;
-    sinteseVoz.text = mensagem;
-    sinteseVoz.lang = 'pt-BR';
+    var contador = 0;
+    var proximaSintese = function(todasSinteseVoz){
+      contador++;
+      return todasSinteseVoz[contador];
+    }
 
-    speechSynthesis.speak(sinteseVoz);
+    var todasSinteseVoz = [];
+    var container = $(seletorCSS + ' *').text(function(indice, texto){
+      var paragrafos = texto.split('.');
+
+      for (i=0; i < paragrafos.length; i++){
+        var paragrafo = paragrafos[i];
+        if (paragrafo.trim() != ''){
+          var sinteseVoz = new SpeechSynthesisUtterance(paragrafo);
+          sinteseVoz.lang = 'pt-BR';
+          todasSinteseVoz.push(sinteseVoz);
+        }
+      }
+
+    });
+
+    var totalSinteses = todasSinteseVoz.length - 1;
+    for (i=0; i < todasSinteseVoz.length; i++){
+      var sinteseVoz = todasSinteseVoz[i]
+      if(i == totalSinteses) {
+        sinteseVoz.onend = function(){
+          annyang.start();
+        }
+      } else {
+        sinteseVoz.onend = function(){
+          speechSynthesis.speak(proximaSintese(todasSinteseVoz));
+        }
+      }
+    }
+
+    annyang.abort();
+    speechSynthesis.speak(todasSinteseVoz[0]);
   }
 }
 
@@ -37,7 +56,7 @@ var initialize = function(){
 
   if (annyang){
     annyang.addCommands(commands);
-    annyang.setLanguage('pt');
+    annyang.setLanguage('pt-BR');
     annyang.start();
   }
 }
