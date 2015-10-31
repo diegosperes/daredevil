@@ -27,7 +27,7 @@ app-test-stop:
 	@kill `echo \`ps aux | egrep '^.*app-test\/wsig\.py'\` | cut -f2 -d ' '`
 
 flake8:
-	@flake8 .
+	@flake8 . --max-complexity 5
 
 tests: flake8
 	@find . -name '*.pyc' -delete
